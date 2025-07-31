@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:latest
+    ports:
+      - 5433:5432 # 5432 is taken on my local machine
+    env_file:
+      - ./docker/env/postgres.env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
+
+networks:
+  rn-chat-app:
+    driver: bridge
