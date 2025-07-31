@@ -1,0 +1,54 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+
+  email     String   @unique
+  username  String   @unique @db.VarChar(30)
+  password  String   @db.VarChar(255) // This is a hashed password
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  chats     Chat[]   @relation("ChatMembers")
+  messages  Message[]
+
+  @@map("users")
+}
+
+model Chat {
+  id        String   @id @default(uuid())
+
+  name      String?
+  users     User[]   @relation("ChatMembers")
+  messages  Message[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("chats")
+}
+
+model Message {
+  id        String   @id @default(uuid())
+
+  content   String
+  
+  sender    User     @relation(fields: [senderId], references: [id])
+  senderId  String
+
+  chat      Chat     @relation(fields: [chatId], references: [id])
+  chatId    String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("messages")
+}
