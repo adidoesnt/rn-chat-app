@@ -2,10 +2,10 @@ import { prisma } from 'components/prisma';
 import { Elysia } from 'elysia';
 
 export const getMessagesForChat = new Elysia().get(
-  '/:chatId/messages',
+  '/:id/messages',
   async ({ params, set }) => {
     try {
-      const { chatId } = params;
+      const { id: chatId } = params;
 
       const messages = await prisma.message.findMany({
         where: {

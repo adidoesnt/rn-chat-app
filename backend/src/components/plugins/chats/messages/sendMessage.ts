@@ -7,10 +7,10 @@ const sendMessageSchema = z.object({
   content: z.string(),
 });
 
-export const sendMessage = new Elysia().ws('/:chatId/messages', {
+export const sendMessage = new Elysia().ws('/:id/messages', {
   message: async (ws, message) => {
     try {
-      const { chatId } = ws.data.params;
+      const { id: chatId } = ws.data.params;
 
       const validatedMessage = sendMessageSchema.safeParse(message);
 
