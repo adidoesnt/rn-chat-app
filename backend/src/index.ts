@@ -1,5 +1,5 @@
 import { Elysia } from 'elysia';
-import { healthCheck, login, signup } from 'components/plugins';
+import { healthCheck, login, signup, logout } from 'components/plugins';
 
 import { PORT } from './constants';
 
@@ -8,6 +8,7 @@ try {
     .use(healthCheck)
     .use(login)
     .use(signup)
+    .use(logout)
     .listen(PORT);
 
   const { hostname, port } = app.server ?? {};
