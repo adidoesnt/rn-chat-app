@@ -1,5 +1,6 @@
 services:
   postgres:
+    container_name: rn-chat-app-postgres
     image: postgres:latest
     ports:
       - 5433:5432 # 5432 is taken on my local machine
