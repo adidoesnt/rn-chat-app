@@ -1,7 +1,7 @@
 import { prisma } from 'components/prisma';
 import { Elysia } from 'elysia';
 
-export const deleteChat = new Elysia().delete(
+export const deleteChatById = new Elysia().delete(
   '/:id',
   async ({ params, set }) => {
     try {
