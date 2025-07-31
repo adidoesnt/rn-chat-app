@@ -6,6 +6,7 @@ export const getMessagesForChat = new Elysia().get(
   async ({ params, set }) => {
     try {
       const { id: chatId } = params;
+      console.log(`Received request to fetch messages for chatId: ${chatId}`);
 
       const messages = await prisma.message.findMany({
         where: {
@@ -21,12 +22,16 @@ export const getMessagesForChat = new Elysia().get(
         },
       });
 
+      console.log(
+        `Fetched ${messages.length} messages for chatId: ${chatId}`
+      );
+
       return {
         message: 'Messages fetched successfully',
         messages,
       };
     } catch (error) {
-      console.error(error);
+      console.error('Internal server error during message fetch:', error);
       set.status = 500;
       return {
         error: 'Internal server error',

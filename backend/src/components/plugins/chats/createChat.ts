@@ -11,10 +11,13 @@ const createChatSchema = z.object({
 
 export const createChat = new Elysia().post('/', async ({ body, set }) => {
   try {
+    console.log('Received request body:', body);
+
     const validatedBody = createChatSchema.safeParse(body);
 
     if (!validatedBody.success) {
       set.status = 400;
+      console.warn('Validation failed:', validatedBody.error.message);
       return {
         error: validatedBody.error.message,
       };
@@ -23,8 +26,10 @@ export const createChat = new Elysia().post('/', async ({ body, set }) => {
     const { userIds, name } = validatedBody.data;
     const isGroupChat = userIds.length > 2;
     if (!isGroupChat && name) {
-      console.warn('Chat name is not allowed for group chats');
+      console.warn('Chat name is not allowed for non-group chats');
     }
+
+    console.log('Checking for existing chat with userIds:', userIds);
 
     const existingChat = await prisma.chat.findFirst({
       where: {
@@ -44,12 +49,17 @@ export const createChat = new Elysia().post('/', async ({ body, set }) => {
     });
 
     if (existingChat) {
-      console.warn('Chat already exists', existingChat);
+      console.warn('Chat already exists:', existingChat);
       return {
         message: 'Chat already exists',
         chat: existingChat,
       };
     }
+
+    console.log('Creating new chat with data:', {
+      name: isGroupChat ? (name ?? 'New Group Chat') : null,
+      userIds,
+    });
 
     const chat = await prisma.chat.create({
       data: {
@@ -59,6 +69,8 @@ export const createChat = new Elysia().post('/', async ({ body, set }) => {
         },
       },
     });
+    
+    console.log('Chat created successfully:', chat);
 
     return {
       message: 'Chat created successfully',
@@ -66,6 +78,7 @@ export const createChat = new Elysia().post('/', async ({ body, set }) => {
     };
   } catch (error) {
     set.status = 500;
+    console.error('Internal server error:', error);
     return {
       error: 'Internal server error',
     };
