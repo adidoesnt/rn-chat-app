@@ -1,14 +1,13 @@
 import { Elysia } from 'elysia';
-import { healthCheck, login, signup, logout } from 'components/plugins';
+import { healthCheck, authRouter, chatRouter } from 'components/plugins';
 
 import { PORT } from './constants';
 
 try {
   const app = new Elysia()
     .use(healthCheck)
-    .use(login)
-    .use(signup)
-    .use(logout)
+    .use(authRouter)
+    .use(chatRouter)
     .listen(PORT);
 
   const { hostname, port } = app.server ?? {};

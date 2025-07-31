@@ -20,8 +20,21 @@ export const signup = new Elysia().post('/signup', async ({ body, set }) => {
     }
 
     const { email, username, password } = validatedBody.data;
-    const hashedPassword = await Bun.password.hash(password);
 
+    const existingUser = await prisma.user.findFirst({
+      where: {
+        OR: [{ email }, { username }],
+      },
+    });
+
+    if (existingUser) {
+      set.status = 400;
+      return {
+        error: 'User already exists',
+      };
+    }
+
+    const hashedPassword = await Bun.password.hash(password);
     const { password: createdPassword, ...createdUser } =
       await prisma.user.create({
         data: {
