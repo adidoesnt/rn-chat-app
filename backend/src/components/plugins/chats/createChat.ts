@@ -21,6 +21,10 @@ export const createChat = new Elysia().post('/', async ({ body, set }) => {
     }
 
     const { userIds, name } = validatedBody.data;
+    const isGroupChat = userIds.length > 2;
+    if (!isGroupChat && name) {
+      console.warn('Chat name is not allowed for group chats');
+    }
 
     const existingChat = await prisma.chat.findFirst({
       where: {
@@ -49,7 +53,7 @@ export const createChat = new Elysia().post('/', async ({ body, set }) => {
 
     const chat = await prisma.chat.create({
       data: {
-        name: name ?? 'New Chat',
+        name: isGroupChat ? (name ?? 'New Group Chat') : null,
         users: {
           connect: userIds.map((userId) => ({ id: userId })),
         },
