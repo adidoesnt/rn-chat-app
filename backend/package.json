@@ -9,7 +9,8 @@
   "dependencies": {
     "@prisma/client": "^6.13.0",
     "elysia": "latest",
-    "prisma": "^6.13.0"
+    "prisma": "^6.13.0",
+    "zod": "^4.0.14"
   },
   "devDependencies": {
     "bun-types": "latest",

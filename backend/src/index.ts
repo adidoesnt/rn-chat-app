@@ -1,10 +1,14 @@
 import { Elysia } from 'elysia';
-import { healthCheck } from 'components/plugins';
+import { healthCheck, login, signup } from 'components/plugins';
 
 import { PORT } from './constants';
 
 try {
-  const app = new Elysia().use(healthCheck).listen(PORT);
+  const app = new Elysia()
+    .use(healthCheck)
+    .use(login)
+    .use(signup)
+    .listen(PORT);
 
   const { hostname, port } = app.server ?? {};
   if (!hostname || !port) {
