@@ -1,7 +1,20 @@
-import { Elysia } from "elysia";
+import { Elysia } from 'elysia';
+import { healthCheck } from 'components/plugins';
 
-const app = new Elysia().get("/", () => "Hello Elysia").listen(3000);
+import { PORT } from './constants';
 
-console.log(
-  `🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`
-);
+try {
+  const app = new Elysia().use(healthCheck).listen(PORT);
+
+  const { hostname, port } = app.server ?? {};
+  if (!hostname || !port) {
+    throw new Error('Unable to start server');
+  }
+
+  console.log(`🦊 Elysia is running at ${hostname}:${port}`);
+} catch (e) {
+  const error = e as Error;
+  console.error(error.message);
+
+  process.exit(1);
+}
