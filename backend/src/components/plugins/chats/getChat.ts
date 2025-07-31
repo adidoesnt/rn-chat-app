@@ -12,9 +12,14 @@ export const getChatById = new Elysia().get('/:id', async ({ params, set }) => {
       include: {
         messages: {
           select: {
-            senderId: true,
             content: true,
             createdAt: true,
+            sender: {
+              select: {
+                id: true,
+                username: true,
+              },
+            },
           },
         },
       },

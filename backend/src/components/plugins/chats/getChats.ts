@@ -20,6 +20,22 @@ export const getChatsForUser = new Elysia().get('/', async ({ query, set }) => {
           },
         },
       },
+      include: {
+        messages: {
+          take: 1,
+          orderBy: {
+            createdAt: 'desc',
+          },
+          include: {
+            sender: {
+              select: {
+                id: true,
+                username: true,
+              },
+            },
+          },
+        },
+      },
     });
 
     return {
