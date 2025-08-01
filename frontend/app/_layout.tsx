@@ -1,3 +1,4 @@
+import "../global.css"
 import { useState } from 'react';
 import { Stack } from 'expo-router';
 

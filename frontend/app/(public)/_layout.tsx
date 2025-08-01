@@ -13,6 +13,7 @@ export default function PublicLayout() {
         options={{
           title: 'Login',
           tabBarIcon: ({ color, size }) => <Ionicons name="log-in" size={size} color={color} />,
+          headerShown: false,
         }}
       />
       <Tabs.Screen
@@ -20,6 +21,7 @@ export default function PublicLayout() {
         options={{
           title: 'Sign Up',
           tabBarIcon: ({ color, size }) => <Ionicons name="person-add" size={size} color={color} />,
+          headerShown: false,
         }}
       />
     </Tabs>

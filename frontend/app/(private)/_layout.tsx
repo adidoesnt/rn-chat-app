@@ -15,6 +15,7 @@ export default function AuthLayout() {
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="chatbubbles" size={size} color={color} />
           ),
+          headerShown: false,
         }}
       />
       <Tabs.Screen
@@ -24,6 +25,7 @@ export default function AuthLayout() {
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="person" size={size} color={color} />
           ),
+          headerShown: false,
         }}
       />
     </Tabs>

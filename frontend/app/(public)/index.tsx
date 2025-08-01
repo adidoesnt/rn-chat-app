@@ -2,7 +2,7 @@ import { View, Text } from 'react-native';
 
 const Login = () => {
   return (
-    <View className="grid h-screen w-screen place-items-center">
+    <View className="flex-1 items-center justify-center">
       <Text>Login</Text>
     </View>
   );
