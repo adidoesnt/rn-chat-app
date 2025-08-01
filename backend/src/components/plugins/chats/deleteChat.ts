@@ -1,5 +1,11 @@
 import { prisma } from 'components/prisma';
-import { Elysia } from 'elysia';
+import { Elysia, t } from 'elysia';
+
+const deleteChatByIdSchema = t.Object({
+  id: t.String({
+    format: 'uuid',
+  }),
+});
 
 export const deleteChatById = new Elysia().delete(
   '/:id',
@@ -35,5 +41,8 @@ export const deleteChatById = new Elysia().delete(
         error: 'Internal server error',
       };
     }
+  },
+  {
+    params: deleteChatByIdSchema,
   },
 );

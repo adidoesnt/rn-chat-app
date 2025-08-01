@@ -1,5 +1,11 @@
 import { prisma } from 'components/prisma';
-import { Elysia } from 'elysia';
+import { Elysia, t } from 'elysia';
+
+const getMessagesForChatSchema = t.Object({
+  id: t.String({
+    format: 'uuid',
+  }),
+});
 
 export const getMessagesForChat = new Elysia().get(
   '/:id/messages',
@@ -22,9 +28,7 @@ export const getMessagesForChat = new Elysia().get(
         },
       });
 
-      console.log(
-        `Fetched ${messages.length} messages for chatId: ${chatId}`
-      );
+      console.log(`Fetched ${messages.length} messages for chatId: ${chatId}`);
 
       return {
         message: 'Messages fetched successfully',
@@ -37,5 +41,8 @@ export const getMessagesForChat = new Elysia().get(
         error: 'Internal server error',
       };
     }
+  },
+  {
+    params: getMessagesForChatSchema,
   },
 );
